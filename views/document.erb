@@ -1,5 +1,6 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
   <title><%=document.name%></title>
 </head>
 <body>
@@ -7,13 +8,16 @@
 <a href="/">HOMEPAGE</a>
 <a href="/documents">BACK</a>
 <br></br>
+<img src="<%=document.url%>"/>
 <p>BIOGRAPHY</p>
-<%=document.information%>
+<%=markdown.render(document.information)%>
 <br>
 </br>
-<p>by</p>
+<p>original by</p>
 <a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a>
 <br></br>
+</p>edited by </p>
+<a href="/author/<%=authoredited.id%>"><%=authoredited.first%> <%=authoredited.last%></a>
 <form action="/edit/<%=document.id%>" method="GET">
 <input type="hidden" name="document" value="<%=document.id%>">
 <button>EDIT</button>

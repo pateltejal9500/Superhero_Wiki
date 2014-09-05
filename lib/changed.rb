@@ -1,7 +1,7 @@
 require 'active_record'
 class Change < ActiveRecord::Base
-  def author
-    Author.where({id: self.author_id})
+  def editedauthor
+    Author.find_by({id: self.edited_id})
   end
   def document
     Document.where({id: self.document_id})

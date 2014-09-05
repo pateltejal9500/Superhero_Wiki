@@ -2,11 +2,13 @@ require 'sinatra'
 require 'sinatra/reloader'
 require 'HTTParty'
 require 'pry'
+require 'redcarpet'
 require_relative './lib/connection.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
 require_relative './lib/document.rb'
 require_relative './lib/subscriber.rb'
+require_relative './lib/activity.rb'
 
 
 after do
@@ -14,7 +16,15 @@ after do
 end
 
 get "/" do
-  erb(:index)
+  recent = Activity.all
+  recent = recent.sort.reverse {|time|time.created_at} 
+  recentstuff = []
+  i = 0
+  while i < 10 && i < (recent.length)
+    recentstuff<< recent[i]
+    i += 1
+  end
+  erb(:index, {locals:{recentstuff:recentstuff}})
 end
 
 get "/search" do
@@ -36,6 +46,7 @@ end
 get "/document/:id" do
   document = Document.find_by({id: params[:id]})
   author = document.author
+  authoredited = document.edited
   if document.information.include?"[["
     replacing = (document.information).split("[[")[1].split("]]")[0] 
   end
@@ -44,7 +55,9 @@ get "/document/:id" do
     document.information = (document.information).gsub("[[#{replacing}]]", "<html><a href='/document/#{documents.id}'>#{documents.name}</a></html>")
   end
   end
-erb(:document, {locals: {document:document, author:author}})
+  renderer = Redcarpet::Render::HTML.new
+  markdown = Redcarpet::Markdown.new(renderer, extensions={})
+erb(:document, {locals: {document:document, author:author, authoredited: authoredited, markdown: markdown}})
 end
 
 get "/newdocument" do
@@ -59,8 +72,12 @@ post "/documents" do
   name = params["name"].downcase
   information = params["information"]
   author_id = params["author"]
-  document = {name:name, information:information, author_id: author_id}
+  url = params["url"]
+  author = Author.find_by({id: author_id})
+  document = {name:name, information:information, author_id: author_id, edited_id: author_id, url: url}
   Document.create(document)
+  recent = {document_name:name, author_first:" by #{author.first}", author_last: author.last, action: "added"}
+  Activity.create(recent)
   erb(:documents, {locals: {documents:Document.all}})
 end
 
@@ -69,6 +86,8 @@ post "/newdocument" do
   last = params["last"]
   author = {first: first, last:last}
   Author.create(author)
+  recent = {document_name:"", author_first: first, author_last: last, action: "added as an author"}
+  Activity.create(recent)
   erb(:newdocument, {locals: {authors:Author.all}})
 end
 
@@ -79,26 +98,34 @@ end
 get "/author/:id" do
   author = Author.find_by({id: params[:id]})
   documents = author.document
-  authoredits = Change.where({author_id: params[:id]})
+  editeddocuments = Document.where({edited_id: params[:id]})
+  authoredits = Change.where({edited_id: params[:id]})
   documentsedited=[]
   authoredits.each do |oneedit|
     documentsedited << oneedit.document
   end
-  erb(:author, {locals: {author:author, documents:documents, documentsedited:documentsedited}})
+  erb(:author, {locals: {author:author, documents:documents, documentsedited:documentsedited, editeddocuments: editeddocuments}})
 end
 
 get "/edit/:id" do
+  renderer = Redcarpet::Render::HTML.new
+  markdown = Redcarpet::Markdown.new(renderer, extensions={})
   document = Document.find_by({id: params[:id]})
-  erb(:editdocument, {locals: {document:document, authors:Author.all}})
+  erb(:editdocument, {locals: {document:document, markdown:markdown,authors:Author.all}})
 end
 
 put "/document/:id" do
   document = Document.find_by({id: params[:id]})
-  edited = {document_id: document.id, old_information: document.information, old_name: document.name, author_id: params[:author]}
-  Change.create(edited)
-  newdocument = {information: params[:information], name:params[:name]}
+  edited = {document_id: document.id, old_information: document.information, old_name: document.name, author_id: document.author_id, edited_id: document.edited_id, old_url: document.url}
+  newdocument = {information: params[:information], name:params[:name],edited_id: params[:author], url: params[:url]}
+  author = Author.find_by({id: document.author_id})
+  recent = {document_name:document.name, author_first:" by #{author.first}", author_last: author.last, action: "edited"}
+  Activity.create(recent)
   document.update(newdocument)
-  erb(:documents, {locals: {documents:Document.all}})
+  Change.create(edited)
+  renderer = Redcarpet::Render::HTML.new
+  markdown = Redcarpet::Markdown.new(renderer, extensions={})
+  erb(:documents, {locals: {documents:Document.all, markdown:markdown}})
 end
 
 get "/delete/:id" do
@@ -107,14 +134,17 @@ get "/delete/:id" do
 end
 
 delete "/document/:id" do
-   document = Document.find_by({id: params[:id]})
-   document.destroy
-   documents = Change.where({document_id: params[:id]})
-   documents.each do |document|
+  document = Document.find_by({id: params[:id]})
+  author = Author.find_by({id: document.author_id})
+  recent = {document_name: document.name, author_first: " by #{author.first}", author_last: author.last, action: "deleted"}
+  Activity.create(recent)
+  document.destroy
+  documents = Change.where({document_id: params[:id]})
+  documents.each do |document|
      document.destroy
-   end
-   redirect "/documents"
- end
+  end
+  redirect "/documents"
+end
 
 get "/history/:id" do
   document = Document.find_by({id: params[:id]})
@@ -125,6 +155,8 @@ end
 get "/old/:id/:id" do
   document = Document.find_by({id: params[:captures][0]})
   olddocument = Change.find_by({id: params[:id]})
+  author = document.author
+  editedauthor = olddocument.editedauthor
   if olddocument.old_information.include?"[["
     replacing = (olddocument.old_information).split("[[")[1].split("]]")[0] 
   end
@@ -133,14 +165,18 @@ get "/old/:id/:id" do
       olddocument.old_information = (olddocument.old_information).gsub("[[#{replacing}]]", "<html><a href='/document/#{documents.id}'>#{documents.name}</a></html>")
     end
   end
-erb(:oldone, {locals: {olddocument: olddocument, document:document}})
+  renderer = Redcarpet::Render::HTML.new
+  markdown = Redcarpet::Markdown.new(renderer, extensions={})
+erb(:oldone, {locals: {olddocument: olddocument, document:document, author:author, editedauthor:editedauthor,markdown:markdown}})
 end
 
 put "/document/change/:id" do
   document = Document.find_by({id:params[:id]})
   documentchanging = Change.find_by({id:params[:name]})
-  newdocument = {name: documentchanging.old_name, information: documentchanging.old_information}
-  newolddocument = {old_name: document.name, old_information: document.information}
+  newdocument = {name: documentchanging.old_name, information: documentchanging.old_information, edited_id: documentchanging.edited_id, url: documentchanging.old_url}
+  newolddocument = {old_name: document.name, old_information: document.information, edited_id: document.edited_id, old_url: document.url}
+  author = Author.find_by({id: document.author_id})
+  recent = {document_name: document.name, author_first:" by #{author.first}", author_last: author.last, action:"back to original"}
   documentchanging.update(newolddocument)
   document.update(newdocument)
   erb(:documents, {locals: {documents:Document.all}})

@@ -1,5 +1,6 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
   <title>Homepage</title>
 </head>
 <body>
@@ -8,21 +9,27 @@
 <input type="hidden" name="search" value="search">
 <button>SEARCH</button>
 </form>
-<br></br>
 <form action="/newdocument" method="GET">
 <input type="hidden" name="new" value="new">
 <button>NEW SUPERHERO/NEW AUTHOR</button>
 </form>
-<br></br>
 <form action="/documents" method="GET">
 <input type="hidden" name="documents" value="documents">
 <button>VIEW SUPERHEROS</button>
 </form>
-<br></br>
 <form action="/authors" method="GET">
 <input type="hidden" name="authors" value="authors">
 <button>VIEW AUTHORS</button>
 </form>
-
+<%if recentstuff.length == 0%>
+<p>NO RECENT ACTIVITY</p>
+<%else%>
+<p>RECENT ACTIVITY</p>
+<ol>
+<%recentstuff.each do |recent|%>
+</h5><li><%=recent.document_name.upcase%> <%=recent.author_first%> <%=recent.author_last%> was <%=recent.action%></li></h5>
+<%end%>
+</ol>
+<%end%>
 </body>
 </html>

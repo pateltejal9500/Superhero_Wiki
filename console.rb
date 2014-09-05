@@ -4,4 +4,5 @@ require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
 require_relative './lib/document.rb'
 require_relative './lib/subscriber.rb'
+require_relative './lib/activity.rb'
 binding.pry

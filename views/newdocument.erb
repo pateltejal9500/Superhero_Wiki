@@ -1,6 +1,7 @@
 <html>
 <head>
-  <title>NEW DOCUMENT</title>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+  <title>NEW</title>
 </head>
 <body>
   <a href="/">HOMEPAGE</a>
@@ -11,10 +12,14 @@
    <input type="text" name="last" placeholder="lastname">
    <button>ADD</button>
  </form>
-TO ADD A SUPERHERO
+<p>TO ADD A SUPERHERO</p>
+<p>Can Use Markdown in Biography</p>
+<p>To Link to Other Superheros on this Site [[superhero name]]</p>
 <form action="/documents" method="POST">
 <input type="text" name="name" placeholder="name of superhero">
 <br> </br>
+<input type="text" name="url" placeholder="url">
+<br></br>
 <textarea name="information" cols="75" rows="5" placeholder="biography">
 </textarea>
 <br></br>

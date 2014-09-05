@@ -1,16 +1,23 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
   <title><%=olddocument.old_name%></title>
 </head>
 <body>
   <a href="/history/<%=document.id%>">GO BACK </a>
+  <img src="<%=olddocument.old_url%>"/>
   <p>SUPERHERO NAME</p>
 <%=olddocument.old_name.upcase%>
 <p>OLD BIOGRAPHY</p>
-<%=olddocument.old_information%>
-</body>
+<%=markdown.render(olddocument.old_information)%>
+
+<br></br>
 <form action="/document/change/<%=document.id%>" method="POST">
 <input type="hidden" name="_method" value="PUT">
 <input type="hidden" name="name" value="<%=olddocument.id%>">
 <button>MAKE THIS THE BIOGRAPHY</button>
+<br></br>
+by
+<%=editedauthor.first%>
+</body>
 </html>
