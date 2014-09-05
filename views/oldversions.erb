@@ -1,0 +1,10 @@
+<html>
+<head>
+  <title><%=document.name%></title>
+</head>
+<body>
+<%olddocuments.each do |old|%>
+<a href="/old/<%=old.id%>"><%=old.old_name%></a>
+<%end%>
+</body>
+</html>

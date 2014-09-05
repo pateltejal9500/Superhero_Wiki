@@ -1,0 +1,12 @@
+<html>
+<head>
+  <title>Results for <%=searchword%></title>
+</head>
+<body>
+<ul>
+<li><%document.each do |one|%>
+<a href="/document/<%=one.id%>"><%=one.name%></a></li>
+<%end%>
+</ul>
+</body>
+</html>

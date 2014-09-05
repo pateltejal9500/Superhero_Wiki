@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  DO YOU WANT TO DELETE 
+  <%=document.name%>
+  <%=document.information%>
+<form action="/document/<%=document.id%>" method="POST">
+<input type="hidden" name="_method" value="DELETE">
+<button>DELETE</button>
+</form>
+</body>
+</html>

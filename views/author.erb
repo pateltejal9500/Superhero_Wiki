@@ -1,0 +1,21 @@
+<html>
+<head>
+  <title><%=author.first%></title>
+</head>
+<body>
+  <ul>
+  <%=author.first%><%=author.last%>
+  Documents created
+  <%documents.each do |document|%>
+  <li><a href="/document/<%=document.id%>"><%=document.name%></a></li>
+    <%end%>
+  Documents edited 
+
+   <%documentsedited.each do |document|%>
+  <li><a href="/document/<%=document[0].id%>"><%=document[0].name%></a></li>
+    <%end%>
+
+
+</ul>
+</body>
+</html>

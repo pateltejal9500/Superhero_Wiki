@@ -1,0 +1,29 @@
+<html>
+<head>
+  <title><%=document.name%></title>
+</head>
+<body>
+<%=document.name%>
+<br>
+</br>
+<%=document.information%>
+<br>
+</br>
+by
+<a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a>
+<form action="/edit/<%=document.id%>" method="GET">
+<input type="hidden" name="document" value="<%=document.id%>">
+<button>EDIT</button>
+</form>
+<form action="/delete/<%=document.id%>" method="GET">
+  <input type="hidden" name="delete" value="<%=document.id%>">
+  <button>DELETE</button>
+</form>
+
+  To see older versions
+  <form action="/history/<%=document.id%>" method = "GET">
+  <input type="hidden" name="edited" value="<%=document.id%>">
+  <button> SEE OLDER VERSIONS </button>
+</form>
+</body>
+</html>

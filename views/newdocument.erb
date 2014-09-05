@@ -1,0 +1,27 @@
+<html>
+<head>
+  <title>NEW DOCUMENT</title>
+</head>
+<body>
+  To ADD AN AUTHOR
+<form action="/newdocument" method="POST">
+  <input type="text" name="first" placeholder="firstname">
+   <input type="text" name="last" placeholder="lastname">
+   <button>ADD</button>
+ </form>
+TO ADD A DOCUMENT
+<form action="/documents" method="POST">
+<input type="text" name="name" placeholder="title of the document">
+<br> </br>
+<textarea name="information" cols="75" rows="5" placeholder="write something">
+</textarea>
+<br></br>
+<select name="author">
+  <% authors.each do |author| %>
+  <option value="<%=author["id"]%>"><%=author["first"] %></option>
+  <%end%>
+</select>
+<button>ADD</button>
+</form>
+</body>
+</html>

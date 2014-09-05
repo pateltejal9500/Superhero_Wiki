@@ -1,0 +1,12 @@
+<html>
+<head>
+  <title>Documents</title>
+</head>
+<body>
+  <ul>
+<%documents.each do |document|%>
+<li><a href="/document/<%=document.id%>"><%=document.name%></a></li>
+<%end%>
+</ul>
+</body>
+</html>

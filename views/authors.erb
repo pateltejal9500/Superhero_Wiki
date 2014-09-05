@@ -1,0 +1,13 @@
+<html>
+<head>
+  <title>AUTHORS</title>
+</head>
+<body>
+  <ul>
+  <%authors.each do |author|%>
+  <li><a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a></li>
+  <%end%>
+</ul>
+
+</body>
+</html>

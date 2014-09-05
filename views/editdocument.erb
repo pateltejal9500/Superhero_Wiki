@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title><%=document.name%></title>
+</head>
+<body>
+<form action="/document/<%=document.id%>" method="POST">
+<input type="hidden" name="_method" value="PUT">
+<input type="text" name="name" value="<%=document.name%>">
+<textarea name="information" cols="75" rows="5"> <%=document.information%>
+</textarea>
+<select name="author">
+  <% authors.each do |author| %>
+  <option value="<%=author["id"]%>"><%=author["first"] %></option>
+  <%end%>
+</select>
+
+<button>CHANGE</button>
+</form>
+</body>
+</html>
