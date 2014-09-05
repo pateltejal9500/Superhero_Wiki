@@ -3,6 +3,13 @@
   <title>AUTHORS</title>
 </head>
 <body>
+  <a href="/newdocument">ADD AN AUTHOR</a>
+  <a href="/">HOMEPAGE</a>
+  <p>AUTHORS</p>
+
+  <% if authors.length == 0 %>
+  <p>NO AUTHORS YET, <a href="/newdocument">ADD ONE</a></p>
+  <%end%>
   <ul>
   <%authors.each do |author|%>
   <li><a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a></li>

@@ -114,13 +114,22 @@ delete "/document/:id" do
 
 get "/history/:id" do
   document = Document.find_by({id: params[:id]})
-  olddocuments = Change.where({document_id: params[:edited]})
+  olddocuments = Change.where({document_id: params[:id]})
   erb(:oldversions, {locals: {olddocuments:olddocuments, document:document}})
 end
 
-get "/old/:id" do
-  document = Change.find_by({id: params[:id]})
-erb(:oldone, {locals: {document: document}})
+get "/old/:id/:id" do
+  document = Document.find_by({id: params[:captures][0]})
+  olddocument = Change.find_by({id: params[:id]})
+  if olddocument.old_information.include?"[["
+  replacing = (olddocument.old_information).split("[[")[1].split("]]")[0] 
+  end
+  Document.all.each do |documents|
+  if documents.name == replacing
+    olddocument.old_information = (olddocument.old_information).gsub("[[#{replacing}]]", "<html><a href='/document/#{documents.id}'>#{documents.name}</a></html>")
+  end
+  end
+erb(:oldone, {locals: {olddocument: olddocument, document:document}})
 end
 
   

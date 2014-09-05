@@ -3,27 +3,30 @@
   <title><%=document.name%></title>
 </head>
 <body>
-<%=document.name%>
-<br>
-</br>
+<h1><%=document.name.upcase%></h1>
+<a href="/">HOMEPAGE</a>
+<a href="/documents">BACK</a>
+<br></br>
+<p>BIOGRAPHY</p>
 <%=document.information%>
 <br>
 </br>
-by
+<p>by</p>
 <a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a>
+<br></br>
 <form action="/edit/<%=document.id%>" method="GET">
 <input type="hidden" name="document" value="<%=document.id%>">
 <button>EDIT</button>
 </form>
 <form action="/delete/<%=document.id%>" method="GET">
   <input type="hidden" name="delete" value="<%=document.id%>">
-  <button>DELETE</button>
+  <button>SAY GOODBYE <%=document.name.upcase%></button>
 </form>
 
-  To see older versions
+  
   <form action="/history/<%=document.id%>" method = "GET">
   <input type="hidden" name="edited" value="<%=document.id%>">
-  <button> SEE OLDER VERSIONS </button>
+  <button>OLDER BIOGRAPHY OF <%=document.name.upcase%></button>
 </form>
 </body>
 </html>

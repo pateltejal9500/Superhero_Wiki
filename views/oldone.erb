@@ -1,9 +1,12 @@
 <html>
 <head>
-  <title><%=document.old_name%></title>
+  <title><%=olddocument.old_name%></title>
 </head>
 <body>
-<%=document.old_name%>
-<%=document.old_information%>
+  <a href="/history/<%=document.id%>">GO BACK </a>
+  <h2>SUPERHERO NAME</h2>
+<%=olddocument.old_name%>
+<h2>OLD BIOGRAPHY</h2>
+<%=olddocument.old_information%>
 </body>
 </html>

@@ -1,11 +1,19 @@
 <html>
 <head>
-  <title>Documents</title>
+  <a href="/">HOMEPAGE</a>
+  <a href="/newdocument">ADD A SUPERHERO</a>
+  <title>SUPERHEROS</title>
 </head>
 <body>
+  
+  <% if documents.length == 0 %>
+  <p>NO SUPERHEROS YET, <a href="/">HOMEPAGE</a></p>
+  <%else%>
+  <p>SUPERHEROS</p>
   <ul>
 <%documents.each do |document|%>
-<li><a href="/document/<%=document.id%>"><%=document.name%></a></li>
+<li><a href="/document/<%=document.id%>"><%=document.name.upcase%></a></li>
+<%end%>
 <%end%>
 </ul>
 </body>

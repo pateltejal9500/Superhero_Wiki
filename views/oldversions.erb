@@ -3,8 +3,15 @@
   <title><%=document.name%></title>
 </head>
 <body>
+ <a href="/document/<%=document.id%>">GO BACK</a>
+ <br></br>
+ <%if olddocuments.length == 0%>
+ <p>NO OLDER BIOGRAPHIES</p>
+ <%else%>
+<p>OLDER BIOGRAPHIES</p>
 <%olddocuments.each do |old|%>
-<a href="/old/<%=old.id%>"><%=old.old_name%></a>
+<a href="/old/<%=document.id%>/<%=old.id%>"><%=old.old_name%></a>
+<%end%>
 <%end%>
 </body>
 </html>

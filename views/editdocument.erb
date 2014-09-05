@@ -3,9 +3,13 @@
   <title><%=document.name%></title>
 </head>
 <body>
+  <a href="/">HOMEPAGE</a>
+  <a href="/document/<%=document.id%>">GO BACK</a>
+<h5>SUPERHERO NAME</h5>
 <form action="/document/<%=document.id%>" method="POST">
 <input type="hidden" name="_method" value="PUT">
 <input type="text" name="name" value="<%=document.name%>">
+<h5>BIOGRAPHY</h5>
 <textarea name="information" cols="75" rows="5"> <%=document.information%>
 </textarea>
 <select name="author">
@@ -14,7 +18,7 @@
   <%end%>
 </select>
 
-<button>CHANGE</button>
+<button>FIX <%=document.name.upcase%></button>
 </form>
 </body>
 </html>

@@ -4,17 +4,26 @@
 </head>
 <body>
   <ul>
-  <%=author.first%><%=author.last%>
-  Documents created
+  <h1><%=author.first%> <%=author.last%></h1>
+  <a href="/authors">BACK</a>
+  <br></br>
+  <% if documents.length == 0 %>
+  <p>NO DOCUMENTS WRITTEN</p>
+  <%else%>
+  <p>DOCUMENTS CREATED</p>
   <%documents.each do |document|%>
-  <li><a href="/document/<%=document.id%>"><%=document.name%></a></li>
+  <li><a href="/document/<%=document.id%>"><%=document.name.upcase%></a></li>
     <%end%>
-  Documents edited 
-
+  <%end%>
+  <br></br>
+  <%if documentsedited.length == 0 %>
+    <p>NO EDITED DOCUMENTS</p>
+    <%else%>
+    <p>DOCUMENTS EDITED</p>
    <%documentsedited.each do |document|%>
-  <li><a href="/document/<%=document[0].id%>"><%=document[0].name%></a></li>
+  <li><a href="/document/<%=document[0].id%>"><%=document[0].name.upcase%></a></li>
     <%end%>
-
+    <%end%>
 
 </ul>
 </body>

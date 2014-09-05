@@ -3,9 +3,12 @@
   <title>Results for <%=searchword%></title>
 </head>
 <body>
+  <% if document.length == 0 %>
+  <p>NO SUPERHEROS MATCH, <a href="/search">TRY AGAIN</a></p>
+  <%end%>
 <ul>
-<li><%document.each do |one|%>
-<a href="/document/<%=one.id%>"><%=one.name%></a></li>
+<%document.each do |one|%>
+<li><a href="/document/<%=one.id%>"><%=one.name%></a></li>
 <%end%>
 </ul>
 </body>

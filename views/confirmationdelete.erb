@@ -3,12 +3,13 @@
   <title></title>
 </head>
 <body>
-  DO YOU WANT TO DELETE 
-  <%=document.name%>
-  <%=document.information%>
+  <a href="/document/<%=document.id%>">GO BACK</a>
+  <p>ARE YOU SURE?</p>
+
+  <%=document.name.upcase%>
 <form action="/document/<%=document.id%>" method="POST">
 <input type="hidden" name="_method" value="DELETE">
-<button>DELETE</button>
+<button>SAY GOODBYE <%=document.name.upcase%></button>
 </form>
 </body>
 </html>
