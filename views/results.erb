@@ -3,13 +3,27 @@
   <title>Results for <%=searchword%></title>
 </head>
 <body>
-  <% if document.length == 0 %>
+  <% if document.length == 0 && documents.length == 0%>
   <p>NO SUPERHEROS MATCH, <a href="/search">TRY AGAIN</a></p>
   <%end%>
 <ul>
+  <%if document.length == 0%>
+  <p>NO SUPERHERO NAME MATCH</p>
+  <%else%>
+  <p>SUPERHERO MATCH</p>
 <%document.each do |one|%>
-<li><a href="/document/<%=one.id%>"><%=one.name%></a></li>
+<li><a href="/document/<%=one.id%>"><%=one.name.upcase%></a></li>
 <%end%>
+<%end%>
+<%if documents.length == 0%>
+<p>NO BIOGRAPHY MATCH</p>
+<%else%>
+<p>BIOGRAPHY MATCH</p>
+<%documents.each do |one|%>
+<li><a href="/document/<%=one.id%>"><%=one.name.upcase%></a></li>
+<%end%>
+<%end%>
+
 </ul>
 </body>
 </html>

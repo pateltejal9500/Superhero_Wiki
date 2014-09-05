@@ -10,7 +10,7 @@
  <%else%>
 <p>OLDER BIOGRAPHIES</p>
 <%olddocuments.each do |old|%>
-<a href="/old/<%=document.id%>/<%=old.id%>"><%=old.old_name%></a>
+<a href="/old/<%=document.id%>/<%=old.id%>"><%=old.old_name.upcase%></a>
 <%end%>
 <%end%>
 </body>

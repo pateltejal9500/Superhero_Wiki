@@ -4,9 +4,13 @@
 </head>
 <body>
   <a href="/history/<%=document.id%>">GO BACK </a>
-  <h2>SUPERHERO NAME</h2>
-<%=olddocument.old_name%>
-<h2>OLD BIOGRAPHY</h2>
+  <p>SUPERHERO NAME</p>
+<%=olddocument.old_name.upcase%>
+<p>OLD BIOGRAPHY</p>
 <%=olddocument.old_information%>
 </body>
+<form action="/document/change/<%=document.id%>" method="POST">
+<input type="hidden" name="_method" value="PUT">
+<input type="hidden" name="name" value="<%=olddocument.id%>">
+<button>MAKE THIS THE BIOGRAPHY</button>
 </html>

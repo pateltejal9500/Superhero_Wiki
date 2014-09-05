@@ -24,22 +24,27 @@ end
 get "/results" do
   searchword = params[:search].downcase
   document = Document.where({name: searchword})
-  erb(:results, {locals: {document: document, searchword:searchword}})
+  documents = []
+  Document.all.each do |doc|
+    if (doc.information).scan(/#{searchword}/).count > 0
+      documents << doc
+    end
+  end
+  erb(:results, {locals: {document: document, documents: documents,searchword:searchword}})
 end
 
 get "/document/:id" do
   document = Document.find_by({id: params[:id]})
   author = document.author
   if document.information.include?"[["
-  replacing = (document.information).split("[[")[1].split("]]")[0] 
+    replacing = (document.information).split("[[")[1].split("]]")[0] 
   end
   Document.all.each do |documents|
   if documents.name == replacing
     document.information = (document.information).gsub("[[#{replacing}]]", "<html><a href='/document/#{documents.id}'>#{documents.name}</a></html>")
   end
   end
-  
-  erb(:document, {locals: {document:document, author:author}})
+erb(:document, {locals: {document:document, author:author}})
 end
 
 get "/newdocument" do
@@ -79,7 +84,6 @@ get "/author/:id" do
   authoredits.each do |oneedit|
     documentsedited << oneedit.document
   end
-
   erb(:author, {locals: {author:author, documents:documents, documentsedited:documentsedited}})
 end
 
@@ -107,8 +111,8 @@ delete "/document/:id" do
    document.destroy
    documents = Change.where({document_id: params[:id]})
    documents.each do |document|
-   document.destroy
-    end
+     document.destroy
+   end
    redirect "/documents"
  end
 
@@ -122,16 +126,25 @@ get "/old/:id/:id" do
   document = Document.find_by({id: params[:captures][0]})
   olddocument = Change.find_by({id: params[:id]})
   if olddocument.old_information.include?"[["
-  replacing = (olddocument.old_information).split("[[")[1].split("]]")[0] 
+    replacing = (olddocument.old_information).split("[[")[1].split("]]")[0] 
   end
   Document.all.each do |documents|
-  if documents.name == replacing
-    olddocument.old_information = (olddocument.old_information).gsub("[[#{replacing}]]", "<html><a href='/document/#{documents.id}'>#{documents.name}</a></html>")
-  end
+    if documents.name == replacing
+      olddocument.old_information = (olddocument.old_information).gsub("[[#{replacing}]]", "<html><a href='/document/#{documents.id}'>#{documents.name}</a></html>")
+    end
   end
 erb(:oldone, {locals: {olddocument: olddocument, document:document}})
 end
 
+put "/document/change/:id" do
+  document = Document.find_by({id:params[:id]})
+  documentchanging = Change.find_by({id:params[:name]})
+  newdocument = {name: documentchanging.old_name, information: documentchanging.old_information}
+  newolddocument = {old_name: document.name, old_information: document.information}
+  documentchanging.update(newolddocument)
+  document.update(newdocument)
+  erb(:documents, {locals: {documents:Document.all}})
+end
   
   
 
