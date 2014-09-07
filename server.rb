@@ -9,7 +9,7 @@ require_relative './lib/author.rb'
 require_relative './lib/document.rb'
 require_relative './lib/subscriber.rb'
 require_relative './lib/activity.rb'
-
+require_relative './lib/methods.rb'
 
 after do
   ActiveRecord::Base.connection.close
@@ -74,9 +74,20 @@ post "/documents" do
   author_id = params["author"]
   url = params["url"]
   author = Author.find_by({id: author_id})
-  document = {name:name, information:information, author_id: author_id, edited_id: author_id, url: url}
+  document = {
+              name: name, 
+              information: information, 
+              author_id: author_id, 
+              edited_id: author_id,
+              url: url,
+            }
   Document.create(document)
-  recent = {document_name:name, author_first:" by #{author.first}", author_last: author.last, action: "added"}
+  recent = {
+            document_name: name, 
+            author_first:" by #{author.first}", 
+            author_last: author.last, 
+            action: "added",
+          }
   Activity.create(recent)
   erb(:documents, {locals: {documents:Document.all}})
 end
@@ -86,7 +97,12 @@ post "/newdocument" do
   last = params["last"]
   author = {first: first, last:last}
   Author.create(author)
-  recent = {document_name:"", author_first: first, author_last: last, action: "added as an author"}
+  recent = {
+            document_name: "", 
+            author_first: first, 
+            author_last: last, 
+            action: "added as an author",
+          }
   Activity.create(recent)
   erb(:newdocument, {locals: {authors:Author.all}})
 end
@@ -115,17 +131,35 @@ get "/edit/:id" do
 end
 
 put "/document/:id" do
-  document = Document.find_by({id: params[:id]})
-  edited = {document_id: document.id, old_information: document.information, old_name: document.name, author_id: document.author_id, edited_id: document.edited_id, old_url: document.url}
-  newdocument = {information: params[:information], name:params[:name],edited_id: params[:author], url: params[:url]}
+  newauthor = params["author"]
+  document = Document.find_by({id:params[:id]})
   author = Author.find_by({id: document.author_id})
-  recent = {document_name:document.name, author_first:" by #{author.first}", author_last: author.last, action: "edited"}
+  edited = {
+    document_id: document.id, 
+    old_information: document.information, 
+    old_name: document.name, 
+    author_id: document.author_id,
+    edited_id: document.edited_id, 
+    old_url: document.url,
+  }
+  newdocument = {
+    information: params[:information], 
+    name: params[:name],
+    edited_id: params[:author],
+    url: params[:url],
+  }
+  
+  recent = {
+    document_name: document.name, 
+    author_first:" by #{author.first}", 
+    author_last: author.last, 
+    action: "edited"
+  }
+   email("has been edited", document, author)
   Activity.create(recent)
   document.update(newdocument)
   Change.create(edited)
-  renderer = Redcarpet::Render::HTML.new
-  markdown = Redcarpet::Markdown.new(renderer, extensions={})
-  erb(:documents, {locals: {documents:Document.all, markdown:markdown}})
+erb(:documents, {locals: {documents:Document.all}})
 end
 
 get "/delete/:id" do
@@ -136,6 +170,7 @@ end
 delete "/document/:id" do
   document = Document.find_by({id: params[:id]})
   author = Author.find_by({id: document.author_id})
+  deleteemail("deleted", document, author)
   recent = {document_name: document.name, author_first: " by #{author.first}", author_last: author.last, action: "deleted"}
   Activity.create(recent)
   document.destroy
@@ -143,7 +178,9 @@ delete "/document/:id" do
   documents.each do |document|
      document.destroy
   end
-  redirect "/documents"
+  erb(:documents, {locals: {documents:Document.all}})
+  # redirect "/documents"
+  #cant use redirect for some reason
 end
 
 get "/history/:id" do
@@ -171,16 +208,60 @@ erb(:oldone, {locals: {olddocument: olddocument, document:document, author:autho
 end
 
 put "/document/change/:id" do
-  document = Document.find_by({id:params[:id]})
   documentchanging = Change.find_by({id:params[:name]})
-  newdocument = {name: documentchanging.old_name, information: documentchanging.old_information, edited_id: documentchanging.edited_id, url: documentchanging.old_url}
-  newolddocument = {old_name: document.name, old_information: document.information, edited_id: document.edited_id, old_url: document.url}
-  author = Author.find_by({id: document.author_id})
-  recent = {document_name: document.name, author_first:" by #{author.first}", author_last: author.last, action:"back to original"}
+ 
+  newdocument = {
+    name: documentchanging.old_name, 
+    information: documentchanging.old_information, 
+    edited_id: documentchanging.edited_id, 
+    url: documentchanging.old_url,
+  }
+  newolddocument = {
+    old_name: document.name, 
+    old_information: document.information, 
+    edited_id: document.edited_id, 
+    old_url: document.url
+  }
+  recent = {
+    document_name: document.name,
+     author_first:" by #{author.first}",
+      author_last: author.last, 
+      action:"back to original",
+    }
+  subscribers = Subscriber.where({document_id: params[:id]})
+  email("has been changed to a different version", document, author)
   documentchanging.update(newolddocument)
   document.update(newdocument)
-  erb(:documents, {locals: {documents:Document.all}})
+erb(:documents, {locals: {documents:Document.all}})
 end
   
-  
+get "/subscribe/:id" do
+  document = Document.find_by({id:params[:id]})
+  erb(:subscribe, {locals: {document: document}})
+end
 
+post "/document/subscribe/:id" do
+  first = params["first"]
+  email = params["email"]
+  last = params["last"]
+  email = params["email"]
+  document = Document.find_by({id:params[:id]})
+  author = Author.find_by({id: document.author_id})
+  subscriber = {first: first, 
+    last: last,
+     email: email, 
+     document_id: document.id
+   }
+  subscriber = Subscriber.create(subscriber)
+   response = HTTParty.post "https://sendgrid.com/api/mail.send.json", :body => {
+      "api_user" => "tejal",
+      "api_key" => "guessthis84",
+      "to" => "#{subscriber.email}",
+      "toname"=> "#{subscriber.first} #{subscriber.last}",
+      "from" => "tejalpatel_84@hotmail.com",
+      "subject" => "#{document.name} has been added to your subscription",
+      "text" => "#{document.name} by #{author.first} #{author.last} has been added",
+    };
+
+ erb(:thankyou,{locals: {document:document}})
+end

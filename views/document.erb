@@ -19,18 +19,21 @@
 </p>edited by </p>
 <a href="/author/<%=authoredited.id%>"><%=authoredited.first%> <%=authoredited.last%></a>
 <form action="/edit/<%=document.id%>" method="GET">
-<input type="hidden" name="document" value="<%=document.id%>">
 <button>EDIT</button>
 </form>
 <form action="/delete/<%=document.id%>" method="GET">
-  <input type="hidden" name="delete" value="<%=document.id%>">
   <button>SAY GOODBYE <%=document.name.upcase%></button>
 </form>
 
   
-  <form action="/history/<%=document.id%>" method = "GET">
-  <input type="hidden" name="edited" value="<%=document.id%>">
+  <form action="/history/<%=document.id%>" method="GET">
   <button>OLDER BIOGRAPHY OF <%=document.name.upcase%></button>
 </form>
+
+<form action="/subscribe/<%=document.id%>" method="GET">
+  <button>SUBSCRIBE TO <%=document.name.upcase%></button>
+</form>
+
+
 </body>
 </html>

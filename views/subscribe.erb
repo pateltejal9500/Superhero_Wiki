@@ -1,0 +1,14 @@
+<html>
+<head>
+  <title>SUBSCRIBE</title>
+</head>
+<body>
+  <form action="/document/subscribe/<%=document.id%>" method="POST">
+  <input type="text" name="first" placeholder="firstname">
+  <input type="text" name="last" placeholder="lastname">
+  <input type="text" name="email" placeholder="email address">
+  
+  <button>SUBSCRIBE <%=document.name.upcase%></button>
+</form>
+</body>
+</html>
