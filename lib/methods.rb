@@ -1,5 +1,4 @@
-   def email(edited, document, author)
-    subscribers = Subscriber.where({document_id: params[:id]})
+   def email(edited, document, author, subscribers)
     subscribers.each do |subscriber|
     response = HTTParty.post "https://sendgrid.com/api/mail.send.json", :body => {
       "api_user" => "tejal",
@@ -13,8 +12,8 @@
   end
 end
 
-   def deleteemail(document, author)
-    subscribers = Subscriber.where({document_id: params[:id]})
+   def deleteemail(edited, document, author, subscribers)
+   
     subscribers.each do |subscriber|
     response = HTTParty.post "https://sendgrid.com/api/mail.send.json", :body => {
       "api_user" => "tejal",
@@ -22,9 +21,9 @@ end
       "to" => "#{subscriber.email}",
       "toname"=> "#{subscriber.first} #{subscriber.last}",
       "from" => "tejalpatel_84@hotmail.com",
-      "subject" => "#{document.name} has been deleted",
-      "text" => "#{document.name.upcase} by #{author.first} #{author.last} has been deleted",
+      "subject" => "#{document.name} has been #{edited}",
+      "text" => "#{document.name.upcase} by #{author.first} #{author.last} has been #{edited}",
     };
-    subscriber.destroy
+        subscriber.destroy
   end
 end

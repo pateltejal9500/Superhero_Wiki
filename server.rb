@@ -3,6 +3,7 @@ require 'sinatra/reloader'
 require 'HTTParty'
 require 'pry'
 require 'redcarpet'
+#had to geminstall this
 require_relative './lib/connection.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
@@ -155,7 +156,8 @@ put "/document/:id" do
     author_last: author.last, 
     action: "edited"
   }
-   email("has been edited", document, author)
+   subscribers = Subscriber.where({document_id: params[:id]})
+   email("has been edited", document, author, subscribers)
   Activity.create(recent)
   document.update(newdocument)
   Change.create(edited)
@@ -170,8 +172,11 @@ end
 delete "/document/:id" do
   document = Document.find_by({id: params[:id]})
   author = Author.find_by({id: document.author_id})
-  deleteemail("deleted", document, author)
-  recent = {document_name: document.name, author_first: " by #{author.first}", author_last: author.last, action: "deleted"}
+  subscribers = Subscriber.where({document_id: params[:id]})
+    if subscribers.length > 0
+     deleteemail("deleted", document, author, subscribers)
+    end
+   recent = {document_name: document.name, author_first: " by #{author.first}", author_last: author.last, action: "deleted"}
   Activity.create(recent)
   document.destroy
   documents = Change.where({document_id: params[:id]})
@@ -209,7 +214,8 @@ end
 
 put "/document/change/:id" do
   documentchanging = Change.find_by({id:params[:name]})
- 
+ document = Document.find_by({id: params[:id]})
+ author = Author.find_by({id: document.author_id})
   newdocument = {
     name: documentchanging.old_name, 
     information: documentchanging.old_information, 
@@ -224,12 +230,12 @@ put "/document/change/:id" do
   }
   recent = {
     document_name: document.name,
-     author_first:" by #{author.first}",
+     author_first: " by #{author.first}",
       author_last: author.last, 
       action:"back to original",
     }
   subscribers = Subscriber.where({document_id: params[:id]})
-  email("has been changed to a different version", document, author)
+  email("has been changed to a different version", document, author, subscribers)
   documentchanging.update(newolddocument)
   document.update(newdocument)
 erb(:documents, {locals: {documents:Document.all}})
@@ -265,3 +271,28 @@ post "/document/subscribe/:id" do
 
  erb(:thankyou,{locals: {document:document}})
 end
+
+get "/unsubscribe/:id" do
+  document = Document.find_by({id:params[:id]})
+  erb(:unsubscribe,{locals: {document:document}})
+end
+
+get "/notvalid" do
+
+  erb(:notvalid)
+end
+
+delete "/document/unsubscribe/:id" do
+  document = Document.find_by({id:params[:id]})
+  author = Author.find_by({id: document.author_id})
+  email = params[:email]
+  subscribers = Subscriber.where(email:email, document_id: document.id)
+  if subscribers.length == 0
+    redirect "/notvalid"
+  elsif subscribers.length > 0
+    deleteemail("unsubscibed too", document, author, subscribers)
+    erb(:documents, {locals: {documents:Document.all}})
+  end
+end
+
+

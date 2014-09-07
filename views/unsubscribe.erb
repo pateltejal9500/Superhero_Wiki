@@ -1,0 +1,20 @@
+<html>
+<head>
+  <title>UNSUBSCRIBE</title>
+</head>
+<body>
+<html>
+<head>
+  <title>SUBSCRIBE</title>
+</head>
+<body>
+  <form action="/document/unsubscribe/<%=document.id%>" method="POST">
+  <input type="hidden" name="_method" value="DELETE">
+  <input type="text" name="email" placeholder="email address">
+  
+  <button>UNSUBSCRIBE <%=document.name.upcase%></button>
+</form>
+</body>
+</html>
+</body>
+</html>
