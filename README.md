@@ -2,15 +2,15 @@ wdi_rosencratz_project_one-
 ===========================
 #READ ME
 
-Welcome to the world of Superhero's!
-Superhero wiki is a place where everyone can share information about all your favorite Superheros!
-The website is designed for superhero enthusists, who get tired of all the incorrect information out there that they can not change or delete!
+Welcome to the world of Superheros!
 
+Superhero wiki is a place where everyone can share information Superheros!
+
+The website is designed for superhero enthusists, who get tired of all the incorrect information out there that they can not change or delete!
 
 The user can add, edit, delete, change back to older versions of any superhero!
 
 With this application, the user has all the power!!
-
 
 To start with you will need to install some gems!
 
