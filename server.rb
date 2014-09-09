@@ -3,13 +3,15 @@ require 'bundler/setup'
 
 Bundler.require(:default)
 
-require_relative './config/environments.rb'
+
+# require_relative './config/environments.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
 require_relative './lib/document.rb'
 require_relative './lib/subscriber.rb'
 require_relative './lib/activity.rb'
 require_relative './lib/methods.rb'
+require_relative './lib/connection.rb'
 
 after do
   ActiveRecord::Base.connection.close
@@ -231,8 +233,10 @@ put "/document/change/:id" do
     document_name: document.name,
      author_first: " by #{author.first}",
       author_last: author.last, 
-      action:"back to original",
+      action:"a different version",
     }
+
+  Activity.create(recent)
   subscribers = Subscriber.where({document_id: params[:id]})
   email("has been changed to a different version", document, author, subscribers)
   documentchanging.update(newolddocument)
