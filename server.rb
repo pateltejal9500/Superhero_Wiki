@@ -3,12 +3,7 @@ require 'bundler/setup'
 
 Bundler.require(:default)
 
-group :development do
-  gem 'sinatra-contrib', require: 'sinatra/reloader' 
-  gem 'pry'
-end
-
-require_relative './lib/config/enviroments.rb'
+require_relative './config/enviroments.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
 require_relative './lib/document.rb'
