@@ -1,4 +1,4 @@
-
+require 'ActiveRecord'
   db = URI.parse(ENV['DATABSE_URL'] || 'postgres://localhost/mydb')
 
   ActiveRecord::Base.establish_connection(
