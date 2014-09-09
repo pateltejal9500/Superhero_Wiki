@@ -1,4 +1,4 @@
-require 'ActiveRecord'
+configure :production, :development do
   db = URI.parse(ENV['DATABSE_URL'] || 'postgres://localhost/mydb')
 
   ActiveRecord::Base.establish_connection(
@@ -10,6 +10,7 @@ require 'ActiveRecord'
     :encoding => 'utf8'
     )
   ActiveRecord::Base.logger = Logger.new(STDOUT)
+end
 
 
 
