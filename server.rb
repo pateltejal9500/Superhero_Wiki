@@ -3,7 +3,7 @@ require 'bundler/setup'
 
 Bundler.require(:default)
 
-require_relative './config/enviroments.rb'
+require_relative './config/environments.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
 require_relative './lib/document.rb'
