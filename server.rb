@@ -1,9 +1,13 @@
-require 'sinatra'
-require 'sinatra/reloader'
-require 'HTTParty'
-require 'pry'
-require 'redcarpet'
-#had to geminstall this
+require 'rubygems'
+require 'bundler/setup'
+
+Bundler.require(:default)
+
+group  :development do
+  gem 'sinatra-contrib', require: 'sinatra/reloader' 
+  gem 'pry'
+end
+
 require_relative './lib/connection.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
@@ -214,8 +218,8 @@ end
 
 put "/document/change/:id" do
   documentchanging = Change.find_by({id:params[:name]})
- document = Document.find_by({id: params[:id]})
- author = Author.find_by({id: document.author_id})
+  document = Document.find_by({id: params[:id]})
+  author = Author.find_by({id: document.author_id})
   newdocument = {
     name: documentchanging.old_name, 
     information: documentchanging.old_information, 
@@ -278,7 +282,6 @@ get "/unsubscribe/:id" do
 end
 
 get "/notvalid" do
-
   erb(:notvalid)
 end
 

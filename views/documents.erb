@@ -1,21 +1,23 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   
   <title>SUPERHEROS</title>
 </head>
 <body>
-  <a href="/">HOMEPAGE</a>
-  <a href="/newdocument">ADD A SUPERHERO</a>
   <% if documents.length == 0 %>
-  <p>NO SUPERHEROS YET, <a href="/">HOMEPAGE</a></p>
-  <%else%>
-  <p>SUPERHEROS</p>
-  <ul>
-<%documents.each do |document|%>
-<li><a href="/document/<%=document.id%>"><%=document.name.upcase%></a></li>
-<%end%>
-<%end%>
-</ul>
+    <h1>NO SUPERHEROS YET</h1> 
+ <%else%>
+  <h1>SUPERHEROS</h1>
+<div class="superheros">
+  <%documents.each do |document|%>
+  <li><a href="/document/<%=document.id%>"><%=document.name.upcase%></a></li>
+  <%end%>
+  <%end%>
+</div>
+<h3><a href="/">HOMEPAGE</a></h3>
+<h3><a href="/newdocument">ADD A SUPERHERO</a></h3>
+
 </body>
 </html>

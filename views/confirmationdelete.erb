@@ -1,16 +1,15 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title>BYE BYE <%=document.name.upcase%></title>
 </head>
 <body>
   <a href="/document/<%=document.id%>">GO BACK</a>
-  <p>ARE YOU SURE?</p>
-
-  <%=document.name.upcase%>
-<form action="/document/<%=document.id%>" method="POST">
-<input type="hidden" name="_method" value="DELETE">
-<button>SAY GOODBYE <%=document.name.upcase%></button>
-</form>
+  <h2>ARE YOU SURE?</h2>
+  <form action="/document/<%=document.id%>" method="POST">
+  <input type="hidden" name="_method" value="DELETE">
+  <button>SAY GOODBYE <%=document.name.upcase%></button>
+  </form>
 </body>
 </html>

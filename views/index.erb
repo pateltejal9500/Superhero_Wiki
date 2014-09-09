@@ -1,31 +1,36 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+  <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title>Homepage</title>
 </head>
 <body>
-  <h1>SUPERHERO WIKI<h1>
-<form action="/search" method="GET">
-<button>SEARCH</button>
-</form>
-<form action="/newdocument" method="GET">
-<button>NEW SUPERHERO/NEW AUTHOR</button>
-</form>
-<form action="/documents" method="GET">
-<button>VIEW SUPERHEROS</button>
-</form>
-<form action="/authors" method="GET">
-<button>VIEW AUTHORS</button>
-</form>
-<%if recentstuff.length == 0%>
-<p>NO RECENT ACTIVITY</p>
-<%else%>
-<p>RECENT ACTIVITY</p>
-<ol>
-<%recentstuff.each do |recent|%>
-</h5><li><%=recent.document_name.upcase%> <%=recent.author_first%> <%=recent.author_last%> was <%=recent.action%></li></h5>
-<%end%>
-</ol>
-<%end%>
+ 
+<h1>SUPERHERO WIKI</h1>
+
+  <form action="/search" method="GET">
+  <button>SEARCH</button>
+  </form>
+  <form action="/newdocument" method="GET">
+  <button>NEW SUPERHERO/NEW AUTHOR</button>
+  </form>
+  <form action="/documents" method="GET">
+  <button>VIEW SUPERHEROS</button>
+  </form>
+  <form action="/authors" method="GET">
+  <button>VIEW AUTHORS</button>
+  </form>
+
+
+<div class="recent">
+  <%if recentstuff.length == 0%>
+    <h2>NO RECENT ACTIVITY</h2>
+  <%else%>
+    <h2>RECENT ACTIVITY</h2>
+    <%recentstuff.each do |recent|%>
+      <li><%=recent.document_name.upcase%> <%=recent.author_first%> <%=recent.author_last%> was <%=recent.action%></li>
+    <%end%>
+  <%end%>
+</div>
 </body>
 </html>

@@ -1,11 +1,13 @@
 <html>
 <head>
+  <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title><%=document.name%></title>
-
 </head>
-
 <body>
 <a href="/">HOMEPAGE</a>
-Thank You for Subscribing to<a href="/document/<%=document.id%>"> <%=document.name%></a>
+<div class="thank">
+<h4>Thank You for Subscribing to<a href="/document/<%=document.id%>"> <%=document.name.upcase%></a></h4>
+</div>
 </body>
 </html>

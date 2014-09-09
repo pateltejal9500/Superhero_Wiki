@@ -1,5 +1,5 @@
-   def email(edited, document, author, subscribers)
-    subscribers.each do |subscriber|
+def email(edited, document, author, subscribers)
+  subscribers.each do |subscriber|
     response = HTTParty.post "https://sendgrid.com/api/mail.send.json", :body => {
       "api_user" => "tejal",
       "api_key" => "guessthis84",
@@ -12,9 +12,8 @@
   end
 end
 
-   def deleteemail(edited, document, author, subscribers)
-   
-    subscribers.each do |subscriber|
+def deleteemail(edited, document, author, subscribers)
+  subscribers.each do |subscriber|
     response = HTTParty.post "https://sendgrid.com/api/mail.send.json", :body => {
       "api_user" => "tejal",
       "api_key" => "guessthis84",

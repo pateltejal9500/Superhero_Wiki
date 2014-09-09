@@ -1,9 +1,172 @@
-img {height: 250px;
-    width: auto;
+img {
+    height: 250px;
+    width: 250px;
+    border-radius: 10px;
+    border: 2px solid black;
 }
-/*
+h1 {
+  font-size: 80px;
+  font-family: 'Gloria Hallelujah', cursive;
+  text-align: center;
+  color: blue;
+     }
+
+  h2 {
+  font-size: 35px;
+  font-family: 'Gloria Hallelujah', cursive;
+  color: blue;
+  background: rgba(200, 200, 50, 0.7);
+  width: 500px;
+}
+
+p {
+  font-size: 15px;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+ 
+h3 { 
+  font-size: 20px;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+h4 { 
+  font-size: 35px;
+  font-family: 'Gloria Hallelujah', cursive;
+} 
+
 body {
-    background-image: url("http://i.huffpost.com/gen/1676688/thumbs/o-SUPERHERO-FACTS-facebook.jpg");
-    display: cover;
+    background-image: url("http://littledeanbean.files.wordpress.com/2014/03/noahsuperhero4bdayinvitefinal2-11.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    
 }
-*/
+
+form {
+  text-align: 100px;
+}
+
+input {
+  font-size: 20px;
+  border-radius: 20px;
+  border: 5px solid black;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+
+button {
+      padding: 10px;
+      border-radius: 20px;
+      border: 5px solid black;
+      font-size: 15px;
+      font-family: 'Gloria Hallelujah', cursive;
+
+}
+.results{
+  text-align: center; 
+  background: rgba(200, 200, 50, 0.7);
+  width: 300px;
+  margin-left: 37%;
+}
+
+textarea {
+  font-size: 20px;
+  border-radius: 20px;
+  border: 5px solid black;
+ font-family: 'Gloria Hallelujah', cursive;
+}
+
+select {
+  font-size: 20px;
+  border-radius: 20px;
+  border: 5px solid black;
+  font-family: 'Gloria Hallelujah', cursive;
+}
+.wrapper{
+        position: relative;
+        margin-left: 10;
+        top: -100px;
+        width: 300px;
+        background: rgba(200, 200, 50, 0.7);
+      }
+
+
+.recent {
+  font-family: 'Gloria Hallelujah', cursive;
+        font-size: 20px;
+        position: absolute;
+        margin-left: 30%;
+        text-align: left;
+        top: 130px;
+       background: rgba(200, 200, 50, 0.7);
+     }
+       
+.author {
+  position: relative;
+  top: -60px;
+  margin-left: 680px;
+}
+
+.superhero {
+  position: absolute;
+  top: 250px;
+  margin-left: 50px;
+}
+
+.superheros {
+font-family: 'Gloria Hallelujah', cursive;
+        font-size: 20px;
+        position: absolute;
+        margin-left: 30%;
+        width: 500px;
+        text-align: left;
+        top: 150px;
+       background: rgba(200, 200, 50, 0.7);
+}
+
+.forms {
+position: absolute;
+top: 225px;
+margin-left: 70%;
+
+}
+
+.bio {
+  background: rgba(200, 200, 50, 0.9);
+  width: 500px;
+  margin-left: 5%;
+
+}
+
+.image {position: absolute;
+text-align: center;
+margin-left: 45%;
+}
+
+.old {position: absolute;
+  top: 10px;
+  width: 500px;
+  margin-left: 15%;
+  background: rgba(200, 200, 50, 0.9);
+}
+
+.images {
+  position: relative;
+  text-align: right;
+  margin-right: 15%;}
+
+.biography {
+  position: relative;
+  top: 90px;
+  text-align: right;
+  margin-right: 18%;
+}
+
+.older {
+  background: rgba(200, 200, 50, 0.7);
+  width: 300px;
+}
+.thank {
+  text-align: center;
+  margin-left: 30%;
+  background: rgba(200, 200, 50, 0.7);
+  width: 500px;
+}

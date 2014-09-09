@@ -1,18 +1,22 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title><%=document.name%></title>
 </head>
 <body>
  <a href="/document/<%=document.id%>">GO BACK</a>
- <br></br>
- <%if olddocuments.length == 0%>
- <p>NO OLDER BIOGRAPHIES</p>
- <%else%>
-<p>OLDER BIOGRAPHIES</p>
-<%olddocuments.each do |old|%>
-<a href="/old/<%=document.id%>/<%=old.id%>"><%=old.old_name.upcase%></a>
-<%end%>
-<%end%>
+  <%if olddocuments.length == 0%>
+    <h2>NO OLDER BIOGRAPHIES</h2>
+  <%else%>
+    <h2>OLDER BIOGRAPHIES</h2>
+  <ul>
+<div class="older">
+  <%olddocuments.each do |old|%>
+  <h3><li><a href="/old/<%=document.id%>/<%=old.id%>"><%=old.old_name.upcase%></a></li></h3>
+  <%end%>
+  <%end%>
+</div>
+</ul>
 </body>
 </html>

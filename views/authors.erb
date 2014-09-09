@@ -1,20 +1,21 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title>AUTHORS</title>
 </head>
 <body>
-  <a href="/newdocument">ADD AN AUTHOR</a>
-  <a href="/">HOMEPAGE</a>
-  <p>AUTHORS</p>
+  <h3><a href="/newdocument">ADD AN AUTHOR</a></h3>
+  <h3><a href="/">HOMEPAGE</a></h3>
+  <h2>AUTHORS</h2>
 
-  <% if authors.length == 0 %>
-  <p>NO AUTHORS YET, <a href="/newdocument">ADD ONE</a></p>
-  <%end%>
+    <%if authors.length == 0 %>
+      <h1>NO AUTHORS YET, <a href="/newdocument">ADD ONE</a></h1>
+    <%end%>
   <ul>
-  <%authors.each do |author|%>
-  <li><a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a></li>
-  <%end%>
+    <%authors.each do |author|%>
+    <li><h2><a href="/author/<%=author.id%>"><%=author.first%> <%=author.last%></a></h2></li>
+    <%end%>
 </ul>
 
 </body>

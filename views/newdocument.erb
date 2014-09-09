@@ -1,34 +1,34 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title>NEW</title>
 </head>
 <body>
-  <a href="/">HOMEPAGE</a>
-  <br></br>
-  To ADD AN AUTHOR
-<form action="/newdocument" method="POST">
+<h3><a href="/">HOMEPAGE</a></h3>
+<br></br>
+<div class="author">
+  <h2>TO ADD AN AUTHOR</h2>
+  <form action="/newdocument" method="POST">
   <input type="text" name="first" placeholder="firstname">
    <input type="text" name="last" placeholder="lastname">
    <button>ADD</button>
- </form>
-<p>TO ADD A SUPERHERO</p>
-<p>Can Use Markdown in Biography</p>
-<p>To Link to Other Superheros on this Site [[superhero name]]</p>
-<form action="/documents" method="POST">
-<input type="text" name="name" placeholder="name of superhero">
-<br> </br>
-<input type="text" name="url" placeholder="url">
-<br></br>
-<textarea name="information" cols="75" rows="5" placeholder="biography">
-</textarea>
-<br></br>
-<select name="author">
+  </form>
+</div>
+
+<div class="superhero">
+  <h2>TO ADD A SUPERHERO</h2>
+  <form action="/documents" method="POST">
+  <input type="text" name="name" placeholder="name of superhero">
+  <input type="text" name="url" placeholder="url"><br>
+  <textarea name="information" cols="75" rows="4" placeholder="Markdown capable and can Link to Other Superheros on this Site Using [[superhero name]]"></textarea>
+  <select name="author">
   <% authors.each do |author| %>
   <option value="<%=author["id"]%>"><%=author["first"] %></option>
   <%end%>
-</select>
-<button>ADD</button>
-</form>
+  </select>
+  <button>ADD</button>
+  </form>
+<div>
 </body>
 </html>

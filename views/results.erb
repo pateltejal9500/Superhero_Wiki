@@ -1,30 +1,23 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title>Results for <%=searchword%></title>
 </head>
 <body>
-  <% if document.length == 0 && documents.length == 0%>
-  <p>NO SUPERHEROS MATCH, <a href="/search">TRY AGAIN</a></p>
-  <%end%>
-<ul>
-  <%if document.length == 0%>
-  <p>NO SUPERHERO NAME MATCH</p>
-  <%else%>
-  <p>SUPERHERO MATCH</p>
-<%document.each do |one|%>
-<li><a href="/document/<%=one.id%>"><%=one.name.upcase%></a></li>
-<%end%>
-<%end%>
-<%if documents.length == 0%>
-<p>NO BIOGRAPHY MATCH</p>
+<%if document.length == 0 && documents.length == 0%>
+  <h1>NO SUPERHEROS MATCH</h1> 
+  <h3><a href="/search">TRY AGAIN</a></h3>
 <%else%>
-<p>BIOGRAPHY MATCH</p>
-<%documents.each do |one|%>
-<li><a href="/document/<%=one.id%>"><%=one.name.upcase%></a></li>
+   <h1>MATCHES</h1>
+<div class="results">
+  <%document.each do |one|%>
+  <h4><li><a href="/document/<%=one.id%>"><%=one.name.upcase%></a></li></h4>
+  <%end%>
+  <%documents.each do |one|%>
+  <h3><li><a href="/document/<%=one.id%>"><%=one.name.upcase%></a></li></h3>
+  <%end%>
 <%end%>
-<%end%>
-
-</ul>
+</div>
 </body>
 </html>

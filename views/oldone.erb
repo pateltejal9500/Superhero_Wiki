@@ -1,23 +1,28 @@
 <html>
 <head>
   <link rel="stylesheet" type="text/css" href="/styles.css">
+    <link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
   <title><%=olddocument.old_name%></title>
 </head>
 <body>
-  <a href="/history/<%=document.id%>">GO BACK </a>
+<a href="/history/<%=document.id%>">GO BACK </a>
+<div class="images">
   <img src="<%=olddocument.old_url%>"/>
-  <p>SUPERHERO NAME</p>
-<%=olddocument.old_name.upcase%>
-<p>OLD BIOGRAPHY</p>
-<%=markdown.render(olddocument.old_information)%>
+</div>
 
-<br></br>
-<form action="/document/change/<%=document.id%>" method="POST">
-<input type="hidden" name="_method" value="PUT">
-<input type="hidden" name="name" value="<%=olddocument.id%>">
-<button>MAKE THIS THE BIOGRAPHY</button>
-<br></br>
-by
-<%=editedauthor.first%>
+<div class="old">
+  <h2>SUPERHERO NAME</h2>
+  <h3><%=olddocument.old_name.upcase%></h3>
+  <h2>OLD BIOGRAPHY</h2>
+  <p><%=markdown.render(olddocument.old_information)%></p>
+  <h3>by <%=editedauthor.first%></h3>
+</div>
+
+<div class="biography">
+  <form action="/document/change/<%=document.id%>" method="POST">
+  <input type="hidden" name="_method" value="PUT">
+  <input type="hidden" name="name" value="<%=olddocument.id%>">
+  <button>MAKE THIS THE BIOGRAPHY</button>
+</div>
 </body>
 </html>
