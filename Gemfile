@@ -5,3 +5,7 @@ gem 'redcarpet'
 gem 'httparty'
 gem 'pg'
 
+group :development do
+  gem 'sinatra-contrib', require: 'sinatra/reloader' 
+  gem 'pry'
+end
