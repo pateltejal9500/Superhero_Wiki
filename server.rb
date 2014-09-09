@@ -3,7 +3,7 @@ require 'bundler/setup'
 
 Bundler.require(:default)
 
-group  :development do
+group :development do
   gem 'sinatra-contrib', require: 'sinatra/reloader' 
   gem 'pry'
 end
