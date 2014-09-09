@@ -8,7 +8,7 @@ group  :development do
   gem 'pry'
 end
 
-require_relative './lib/connection.rb'
+require_relative './lib/config/environments.rb'
 require_relative './lib/changed.rb'
 require_relative './lib/author.rb'
 require_relative './lib/document.rb'
