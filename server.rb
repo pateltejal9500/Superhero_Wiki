@@ -263,8 +263,8 @@ post "/document/subscribe/:id" do
    }
   subscriber = Subscriber.create(subscriber)
    response = HTTParty.post "https://sendgrid.com/api/mail.send.json", :body => {
-      "api_user" => "tejal",
-      "api_key" => "guessthis84",
+      "api_user" => "",#username
+      "api_key" => "",#password
       "to" => "#{subscriber.email}",
       "toname"=> "#{subscriber.first} #{subscriber.last}",
       "from" => "tejalpatel_84@hotmail.com",
