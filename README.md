@@ -1,4 +1,4 @@
-wdi_rosencratz_project_one-
+Superhero Wiki
 ===========================
 #READ ME
 
